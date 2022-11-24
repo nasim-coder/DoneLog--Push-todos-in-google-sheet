@@ -27,11 +27,10 @@
 })();
 
     (async function showQuote() {
-        let rnum = Math.floor(Math.random() * 1642);
         let response = await fetch("https://nasim-coder.github.io/staticjsondata/quote.json");
         let data = await response.json();
-        // console.log();
-        // console.log(data2[rnum].author);
+        let arrlength = data.length;
+        let rnum = Math.floor(Math.random() * arrlength);
         document.querySelector('.quote').innerText = data[rnum].text;
         document.querySelector('.author').innerText = "-" + data[rnum].author;
     })();
@@ -41,7 +40,8 @@
 let createTodoButton = document.querySelector(".btn");
 let todoInput = document.querySelector(".input");
 let todoContainer = document.querySelector('.todos-container');
-createTodoButton.addEventListener('click', function () {
+createTodoButton.addEventListener('click', function (event) {
+    event.preventDefault();
     if (todoInput.value) {
         let todoElement = document.createElement('p');
         todoElement.innerText = todoInput.value;

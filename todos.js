@@ -40,7 +40,6 @@
 let createTodoButton = document.querySelector(".btn");
 let todoInput = document.querySelector(".input");
 let todoContainer = document.querySelector('.todos-container');
-
 createTodoButton.addEventListener('click', function (event) {
     event.preventDefault();
     if (todoInput.value) {
@@ -55,14 +54,15 @@ createTodoButton.addEventListener('click', function (event) {
         divele.appendChild(doneBtn);
         todoContainer.appendChild(divele);
         divele.classList.add('mytodo-container')
-        setTodos(todoInput.value);
+        setTodos(todoInput.value, false, new Date());
+        todoInput.value = '';
     }
 });
 
 // insert todos in local storage
-function setTodos(todoVal) {
+function setTodos(todo, isDone, date ) {
     let todos = getTodos();
-    todos.push(todoVal);
+    todos.push({todo:todo, isDone:isDone, date:date});
     localStorage.setItem("mytodos", JSON.stringify(todos));
 }
 
@@ -80,16 +80,21 @@ function getTodos() {
 // create already available todo on loading the page
 function createTodoOnLoad() {
     let todos = getTodos();
-    todos.forEach(todo => {
-        createTodoElements(todo);
+    todos.forEach(todoObj => {
+        let completeClasss = 'uncomplete';
+        if (todoObj.isDone) {
+            completeClasss="completed"
+        }
+        createTodoElements(todoObj.todo, completeClasss);
     });
 }
 
-function createTodoElements(todo) {
+function createTodoElements(todo, compClass) {
         let divele = document.createElement('div');
         let todoElement = document.createElement('span');
         todoElement.innerText = todo;
         todoElement.classList.add("mytodo");
+        todoElement.classList.add(compClass);
         divele.appendChild(todoElement);
         let doneBtn = document.createElement('button');
         doneBtn.classList.add('done');
@@ -99,4 +104,24 @@ function createTodoElements(todo) {
         todoContainer.appendChild(divele);
 }
 
-window.addEventListener('load', createTodoOnLoad)
+window.addEventListener('load', createTodoOnLoad);
+
+// when user clicks on done
+todoContainer.addEventListener('click', todoComplete);
+
+function todoComplete(event) {
+    const doneBtn = event.target;
+    if (doneBtn.classList[0] == 'done') {
+        const mytodo = doneBtn.previousElementSibling;
+        console.log(mytodo.innerText);
+        let todos = getTodos();
+        todos.forEach(ele => {
+            if (ele.todo == mytodo.innerText) {
+                ele.isDone = true;
+            }
+        });
+        localStorage.setItem("mytodos", JSON.stringify(todos));
+        mytodo.classList.add('completed');
+    }
+}
+

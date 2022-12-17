@@ -1,0 +1,63 @@
+body{
+    margin: 0;
+    background-color: #353c30;
+}
+hr{
+    margin: 0;
+}
+.topbar{
+    /* background-color: #3b5ed3; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* flex: 5 10 auto; */
+}
+.greeting-bar{
+    flex: 1;
+    text-align: center;
+    background-color: #181818;
+    color: #656b70;
+}
+.quote-bar{
+    flex: 5;
+    text-align: center;
+    background-color: #000000eb;
+    color: #656b70;
+}
+.inpt-bar{
+    text-align: center;
+    margin-top: 1.5rem;
+}
+.input {
+    width: 50%;
+    height: 1.5rem;
+    font-size: 1rem;
+    border-radius: 20px;
+    padding-left: 10px;
+}
+.btn{
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+    border-radius: 20px;
+}
+
+.todos-container{
+    /* background: #ca8383; */
+    margin-left: auto;
+    margin-right: auto;
+    width: 70rem;
+}
+
+.mytodo-container{
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #181818;
+    color: aliceblue;
+}
+
+.done{
+    float: right;
+}

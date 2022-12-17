@@ -51,9 +51,10 @@ createTodoButton.addEventListener('click', function (event) {
         divele.appendChild(todoElement);
         let doneBtn = document.createElement('button');
         doneBtn.classList.add('done');
-        doneBtn.innerText = 'Done';
+        doneBtn.innerText = 'DONE';
         divele.appendChild(doneBtn);
         todoContainer.appendChild(divele);
+        divele.classList.add('mytodo-container')
         setTodos(todoInput.value);
     }
 });
@@ -92,8 +93,9 @@ function createTodoElements(todo) {
         divele.appendChild(todoElement);
         let doneBtn = document.createElement('button');
         doneBtn.classList.add('done');
-        doneBtn.innerText = 'Done';
+        doneBtn.innerText = 'DONE';
         divele.appendChild(doneBtn);
+        divele.classList.add('mytodo-container')
         todoContainer.appendChild(divele);
 }
 

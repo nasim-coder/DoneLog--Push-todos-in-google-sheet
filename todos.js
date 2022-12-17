@@ -26,30 +26,75 @@
     document.querySelector('.date').innerHTML = new Date().toDateString();
 })();
 
-    (async function showQuote() {
+(async function showQuote() {
         let response = await fetch("https://N451M-coder.github.io/staticjsondata/quote.json");
         let data = await response.json();
         let arrlength = data.length;
         let rnum = Math.floor(Math.random() * arrlength);
         document.querySelector('.quote').innerText = data[rnum].text;
         document.querySelector('.author').innerText = "-" + data[rnum].author;
-    })();
+})();
 
 
 // to do creation logic
 let createTodoButton = document.querySelector(".btn");
 let todoInput = document.querySelector(".input");
 let todoContainer = document.querySelector('.todos-container');
+
 createTodoButton.addEventListener('click', function (event) {
     event.preventDefault();
     if (todoInput.value) {
-        let todoElement = document.createElement('p');
+        let divele = document.createElement('div')
+        let todoElement = document.createElement('span');
         todoElement.innerText = todoInput.value;
         todoElement.classList.add("mytodo");
-        todoContainer.appendChild(todoElement);
+        divele.appendChild(todoElement);
+        let doneBtn = document.createElement('button');
+        doneBtn.classList.add('done');
+        doneBtn.innerText = 'Done';
+        divele.appendChild(doneBtn);
+        todoContainer.appendChild(divele);
+        setTodos(todoInput.value);
     }
 });
 
+// insert todos in local storage
+function setTodos(todoVal) {
+    let todos = getTodos();
+    todos.push(todoVal);
+    localStorage.setItem("mytodos", JSON.stringify(todos));
+}
 
+// get todos from local storage
+function getTodos() {
+    let todos;
+    if (localStorage.getItem("mytodos") === null) {
+      todos = [];
+    } else {
+      todos = JSON.parse(localStorage.getItem("mytodos"));
+    }
+    return todos;
+  }
 
+// create already available todo on loading the page
+function createTodoOnLoad() {
+    let todos = getTodos();
+    todos.forEach(todo => {
+        createTodoElements(todo);
+    });
+}
 
+function createTodoElements(todo) {
+        let divele = document.createElement('div');
+        let todoElement = document.createElement('span');
+        todoElement.innerText = todo;
+        todoElement.classList.add("mytodo");
+        divele.appendChild(todoElement);
+        let doneBtn = document.createElement('button');
+        doneBtn.classList.add('done');
+        doneBtn.innerText = 'Done';
+        divele.appendChild(doneBtn);
+        todoContainer.appendChild(divele);
+}
+
+window.addEventListener('load', createTodoOnLoad)

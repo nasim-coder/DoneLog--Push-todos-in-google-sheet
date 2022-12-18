@@ -1,0 +1,20 @@
+{
+    "name": "My Todo List",
+    "description": "Todo List with motivatinal quotes, works without internet",
+    "version": "1.0",
+    "manifest_version": 3,
+      "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "128": "/images/todo.png"
+          }
+      },
+      "icons": {
+        "128": "/images/todo.png"
+      },
+      "chrome_url_overrides" : {
+        "newtab": "todos.html"
+      },
+    "author": "Nasim"
+  }
+  

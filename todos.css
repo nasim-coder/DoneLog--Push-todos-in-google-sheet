@@ -1,33 +1,38 @@
-body{
+body {
     margin: 0;
     background-color: #353c30;
 }
-hr{
+
+hr {
     margin: 0;
 }
-.topbar{
-    /* background-color: #3b5ed3; */
+
+.topbar {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    /* flex: 5 10 auto; */
 }
-.greeting-bar{
+
+.greeting-bar {
     flex: 1;
-    text-align: center;
-    background-color: #181818;
-    color: #656b70;
-}
-.quote-bar{
-    flex: 5;
     text-align: center;
     background-color: #000000eb;
     color: #656b70;
 }
-.inpt-bar{
+
+.quote-bar {
+    flex: 5;
+    text-align: center;
+    background-color: #181818;
+    ;
+    color: #656b70;
+}
+
+.inpt-bar {
     text-align: center;
     margin-top: 1.5rem;
 }
+
 .input {
     width: 50%;
     height: 1.5rem;
@@ -35,33 +40,46 @@ hr{
     border-radius: 20px;
     padding-left: 10px;
 }
-.btn{
+
+.btn {
     width: 2rem;
     height: 2rem;
     font-size: 1rem;
     border-radius: 20px;
 }
 
-.todos-container{
-    /* background: #ca8383; */
+.todos-container {
     margin-left: auto;
     margin-right: auto;
     width: 70rem;
 }
 
-.mytodo-container{
+.mytodo-container {
     margin: 1rem;
     padding: 1rem;
     border: 1px solid black;
     border-radius: 10px;
     background-color: #181818;
     color: aliceblue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.5s ease;
 }
 
-.done{
+/* .done{
     float: right;
-}
-.completed{
+} */
+
+.completed {
     text-decoration: line-through;
     opacity: 0.5;
+}
+
+.mytodo {
+    flex: 1;
+}
+
+button{
+    cursor: pointer;
 }

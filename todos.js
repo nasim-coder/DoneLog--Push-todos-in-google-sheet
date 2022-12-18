@@ -40,6 +40,8 @@
 let createTodoButton = document.querySelector(".btn");
 let todoInput = document.querySelector(".input");
 let todoContainer = document.querySelector('.todos-container');
+
+//crete todo manually by entering the details
 createTodoButton.addEventListener('click', function (event) {
     event.preventDefault();
     if (todoInput.value) {
@@ -50,11 +52,16 @@ createTodoButton.addEventListener('click', function (event) {
         divele.appendChild(todoElement);
         let doneBtn = document.createElement('button');
         doneBtn.classList.add('done');
-        doneBtn.innerText = 'DONE';
+        doneBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
         divele.appendChild(doneBtn);
         todoContainer.appendChild(divele);
         divele.classList.add('mytodo-container')
         setTodos(todoInput.value, false, new Date());
+        // create delete buton
+        let deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('delete');
+        deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        divele.appendChild(deleteBtn);
         todoInput.value = '';
     }
 });
@@ -98,22 +105,26 @@ function createTodoElements(todo, compClass) {
         divele.appendChild(todoElement);
         let doneBtn = document.createElement('button');
         doneBtn.classList.add('done');
-        doneBtn.innerText = 'DONE';
+        doneBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
         divele.appendChild(doneBtn);
         divele.classList.add('mytodo-container')
         todoContainer.appendChild(divele);
+        let deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('delete');
+        deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        divele.appendChild(deleteBtn);
 }
 
 window.addEventListener('load', createTodoOnLoad);
 
-// when user clicks on done
-todoContainer.addEventListener('click', todoComplete);
+// when user clicks on done or delete
+todoContainer.addEventListener('click', deleteOrMarkAsComplete);
 
-function todoComplete(event) {
+function deleteOrMarkAsComplete(event) {
     const doneBtn = event.target;
-    if (doneBtn.classList[0] == 'done') {
-        const mytodo = doneBtn.previousElementSibling;
-        console.log(mytodo.innerText);
+    let parent = doneBtn.parentElement;
+    if (parent.classList[0] == 'done') {
+        const mytodo = parent.previousElementSibling;
         let todos = getTodos();
         todos.forEach(ele => {
             if (ele.todo == mytodo.innerText) {
@@ -122,6 +133,19 @@ function todoComplete(event) {
         });
         localStorage.setItem("mytodos", JSON.stringify(todos));
         mytodo.classList.add('completed');
+    } else if (parent.classList[0] == 'delete') {
+        const mytodo = parent.previousElementSibling.previousElementSibling;
+        deleteOneTodoFromLocalStorage(mytodo.innerText)
+        parent.parentElement.remove();
     }
 }
 
+function deleteOneTodoFromLocalStorage(todo) {
+    let todos = getTodos();
+    todos.forEach((elem, ind) => {
+        if (elem.todo == todo) {
+            todos.splice(ind, 1);
+        }
+    });
+    localStorage.setItem("mytodos", JSON.stringify(todos));
+}

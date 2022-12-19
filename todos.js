@@ -56,7 +56,7 @@ createTodoButton.addEventListener('click', function (event) {
         divele.appendChild(doneBtn);
         todoContainer.appendChild(divele);
         divele.classList.add('mytodo-container')
-        setTodos(todoInput.value, false, new Date());
+        setTodos(todoInput.value.trim(), false, new Date());
         // create delete buton
         let deleteBtn = document.createElement('button');
         deleteBtn.classList.add('delete');

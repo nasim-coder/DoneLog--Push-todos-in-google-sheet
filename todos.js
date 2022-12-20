@@ -52,7 +52,7 @@ createTodoButton.addEventListener('click', function (event) {
         divele.appendChild(todoElement);
         let doneBtn = document.createElement('button');
         doneBtn.classList.add('done');
-        doneBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+        doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
         divele.appendChild(doneBtn);
         todoContainer.appendChild(divele);
         divele.classList.add('mytodo-container')
@@ -105,7 +105,7 @@ function createTodoElements(todo, compClass) {
         divele.appendChild(todoElement);
         let doneBtn = document.createElement('button');
         doneBtn.classList.add('done');
-        doneBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+        doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
         divele.appendChild(doneBtn);
         divele.classList.add('mytodo-container')
         todoContainer.appendChild(divele);

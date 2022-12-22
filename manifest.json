@@ -1,7 +1,7 @@
 {
     "name": "My Todos",
-    "description": "Todo List with motivatinal quotes, works without internet",
-    "version": "1.0",
+    "description": "Todo List with motivatinal quotes, it will show on every new tab",
+    "version": "0.0.1",
     "manifest_version": 3,
       "action": {
         "default_popup": "popup.html",

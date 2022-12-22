@@ -27,7 +27,7 @@
 })();
 
 (async function showQuote() {
-        let response = await fetch("https://N451M-coder.github.io/staticjsondata/quote.json");
+        let response = await fetch("https://N451M4K.github.io/staticjsondata/quote.json");
         let data = await response.json();
         let arrlength = data.length;
         let rnum = Math.floor(Math.random() * arrlength);

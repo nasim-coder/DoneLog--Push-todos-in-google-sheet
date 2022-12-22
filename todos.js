@@ -149,3 +149,22 @@ function deleteOneTodoFromLocalStorage(todo) {
     });
     localStorage.setItem("mytodos", JSON.stringify(todos));
 }
+
+// delete previous days done todos
+(function deleteOldAlreadyDoneTodo() {
+    let checkdate = localStorage.getItem('checkdate');
+    if (!checkdate) {
+        localStorage.setItem('checkdate', new Date());
+    }
+    if (new Date().getDate() - new Date(checkdate).getDate() > 0) {
+        console.log(4, 'reached in second if');
+        let todos = getTodos();
+        console.log(5, todos);
+        todos.forEach(elem => {
+            if (elem.isDone == true && (new Date().getDate() - new Date(elem.date).getDate()) > 0) {
+                deleteOneTodoFromLocalStorage(elem.todo);
+            }
+        });
+        localStorage.setItem('checkdate', new Date());
+    }
+})()

@@ -17,7 +17,7 @@
     let name = localStorage.getItem("name");
     
     if (!name) {
-        name = prompt("Plase enter your name:");
+        name = prompt("Plase enter your first name:");
         localStorage.setItem('name', name);
     }
 

@@ -40,15 +40,19 @@ hr {
     font-size: 1rem;
     flex: 1;
     padding: 0.5rem;
-    border-right: 0;
     border-radius: 10px 0 0 10px;
+    border: none;
+}
+.minutes {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-right: 0;
     box-shadow: none !important;
     border: none;
-    /* background-color: transparent; */
 }
-.input:focus{
+/* .input:focus{
     outline: none;
-}
+} */
 .btn {
     width: 2rem;
     font-size: 1rem;

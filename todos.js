@@ -1,3 +1,5 @@
+import { URL } from './scripturl.js';
+
 // greeting
 (function showGreeting() {
     function getGreetings(currentHours) {
@@ -34,7 +36,6 @@
         document.querySelector('.quote').innerText = data[rnum].text;
         document.querySelector('.author').innerText = "-" + data[rnum].author;
 })();
-
 
 // to do creation logic
 let createTodoButton = document.querySelector(".btn");
@@ -193,3 +194,14 @@ function minuteToHour(time) {
         return '0:00';
     }
 }
+
+
+async function pushTodoInSpreadSheet(todo, duration, date, done_date) {
+    const resp = await fetch(`${URL}?todo=${todo}&duration=${duration}&date=${date}&done_date=${done_date}`);
+}
+
+console.log(URL);
+
+
+
+

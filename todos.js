@@ -190,6 +190,6 @@ function minuteToHour(time) {
         let minute = minutes % 60;
         return `${hr}:${minute}`
     } else {
-        return '00:00';
+        return '0:00';
     }
 }

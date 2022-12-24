@@ -145,6 +145,7 @@ function deleteOrMarkAsComplete(event) {
         todos.forEach(ele => {
             if (ele.todo == mytodo.innerText) {
                 ele.isDone = true;
+                ele.done_date = new Date();
             }
         });
         localStorage.setItem("mytodos", JSON.stringify(todos));

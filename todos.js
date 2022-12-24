@@ -177,6 +177,7 @@ function deleteOneTodoFromLocalStorage(todo) {
         let todos = getTodos();
         todos.forEach(elem => {
             if (elem.isDone == true && (new Date().getDate() - new Date(elem.date).getDate()) > 0) {
+                pushTodoInSpreadSheet(elem.todo, elem.duration, elem.date, elem.done_date);
                 deleteOneTodoFromLocalStorage(elem.todo);
             }
         });
@@ -199,6 +200,7 @@ function minuteToHour(time) {
 
 async function pushTodoInSpreadSheet(todo, duration, date, done_date) {
     const resp = await fetch(`${URL}?todo=${todo}&duration=${duration}&date=${date}&done_date=${done_date}`);
+
 }
 
 console.log(URL);

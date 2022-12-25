@@ -41,8 +41,9 @@ import { URL } from './scripturl.js';
 let createTodoButton = document.querySelector(".btn");
 let todoInput = document.querySelector(".input");
 let todoContainer = document.querySelector('.todos-container');
-let minuteInput = document.querySelector('.minutes');
-console.log(minuteInput.value);
+let startInput = document.querySelector('.start-time');
+let endInput = document.querySelector('.end-time');
+console.log(endInput.value);
 // let hrformat = minuteToHour(minuteInput.value)
 // console.log('hrformat',hrformat);
 //crete todo manually by entering the details
@@ -66,21 +67,29 @@ createTodoButton.addEventListener('click', function (event) {
         deleteBtn.classList.add('delete');
         deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
         divele.appendChild(deleteBtn);
-        // create span element to show duration
-        let durationSpan = document.createElement('span')
-        durationSpan.innerText = minuteToHour(minuteInput.value);
-        durationSpan.classList.add("duration");
-        divele.appendChild(durationSpan);
-        setTodos(todoInput.value.trim(), false, minuteInput.value.trim(), new Date());
+        // create span element to show start time
+        let startSpan = document.createElement('span')
+        startSpan.innerText = startInput.value;
+        startSpan.classList.add("show-start");
+        divele.appendChild(startSpan);
+        //create span element to show end time
+        let endSpan = document.createElement('span')
+        endSpan.innerText = endInput.value;
+        endSpan.classList.add("show-end");
+        divele.appendChild(endSpan);
+
+        setTodos(todoInput.value.trim(), false, startInput.value, endInput.value, new Date());
+        
         todoInput.value = '';
-        minuteInput.value = '';
+        startInput.value = '';
+        endInput.value = '';
     }
 });
 
 // insert todos in local storage
-function setTodos(todo, isDone, duration, date ) {
+function setTodos(todo, isDone, startTime, endTime, createdAt ) {
     let todos = getTodos();
-    todos.push({todo:todo, isDone:isDone, duration:duration, date:date});
+    todos.push({todo:todo, isDone:isDone, startTime:startTime,endTime:endTime, createdAt:createdAt});
     localStorage.setItem("mytodos", JSON.stringify(todos));
 }
 
@@ -103,11 +112,11 @@ function createTodoOnLoad() {
         if (todoObj.isDone) {
             completeClasss="completed"
         }
-        createTodoElements(todoObj.todo, completeClasss, todoObj.duration);
+        createTodoElements(todoObj.todo, completeClasss, todoObj.startTime, todoObj.endTime);
     });
 }
 
-function createTodoElements(todo, compClass, duration) {
+function createTodoElements(todo, compClass, startTime, endTime) {
         let divele = document.createElement('div');
         let todoElement = document.createElement('span');
         todoElement.innerText = todo;
@@ -124,11 +133,17 @@ function createTodoElements(todo, compClass, duration) {
         deleteBtn.classList.add('delete');
         deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
         divele.appendChild(deleteBtn);
-        // create span element to show duration
-        let durationSpan = document.createElement('span')
-        durationSpan.innerText = minuteToHour(duration);
-        durationSpan.classList.add("duration");
-        divele.appendChild(durationSpan);
+        // create span element to show start time
+        let startSpan = document.createElement('span');
+        startSpan.innerText = startTime;
+        startSpan.classList.add("show-start");
+        divele.appendChild(startSpan);
+        // create span element to to show end time
+        let endSpan = document.createElement('span')
+        endSpan.innerText = endTime;
+        endSpan.classList.add("show-end");
+        divele.appendChild(endSpan);
+
 }
 
 window.addEventListener('load', createTodoOnLoad);
@@ -145,7 +160,7 @@ function deleteOrMarkAsComplete(event) {
         todos.forEach(ele => {
             if (ele.todo == mytodo.innerText) {
                 ele.isDone = true;
-                ele.done_date = new Date();
+                ele.doneAt = new Date();
             }
         });
         localStorage.setItem("mytodos", JSON.stringify(todos));
@@ -176,8 +191,8 @@ function deleteOneTodoFromLocalStorage(todo) {
     if (new Date().getDate() - new Date(checkdate).getDate() > 0) {
         let todos = getTodos();
         todos.forEach(elem => {
-            if (elem.isDone == true && (new Date().getDate() - new Date(elem.date).getDate()) > 0) {
-                pushTodoInSpreadSheet(elem.todo, elem.duration, elem.date, elem.done_date);
+            if (elem.isDone == true && (new Date().getDate() - new Date(elem.createdAt).getDate()) > 0) {
+                pushTodoInSpreadSheet(elem.todo, elem.startTime, elem.endTime, elem.doneAt, elem.createdAt);
                 deleteOneTodoFromLocalStorage(elem.todo);
             }
         });
@@ -197,13 +212,11 @@ function minuteToHour(time) {
     }
 }
 
-
-async function pushTodoInSpreadSheet(todo, duration, date, done_date) {
-    const resp = await fetch(`${URL}?todo=${todo}&duration=${duration}&date=${date}&done_date=${done_date}`);
-
+async function pushTodoInSpreadSheet(todo, startTime, endTime, doneAt, createdAt) {
+    const resp = await fetch(`${URL}?todo=${todo}&startTime=${startTime}&endTime=${endTime}&doneAt=${doneAt}&createdAt=${createdAt}`);
+    console.log(resp);
 }
 
-console.log(URL);
 
 
 

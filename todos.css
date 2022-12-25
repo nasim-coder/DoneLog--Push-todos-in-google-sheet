@@ -25,7 +25,6 @@ hr {
     flex: 5;
     text-align: center;
     background-color: #181818;
-    ;
     color: #656b70;
 }
 
@@ -43,8 +42,8 @@ hr {
     border-radius: 10px 0 0 10px;
     border: none;
 }
-.minutes {
-    font-size: 1rem;
+ .start-time, .end-time {
+    /* font-size: 1rem; */
     padding: 0.5rem;
     border-right: 0;
     box-shadow: none !important;
@@ -108,13 +107,20 @@ ul {
 }
 
 .top-bar-container{
-    margin-left: 20rem;
-    margin-right: 20rem;
+    margin-left: 13rem;
+    margin-right: 13rem;
 }
-.duration {
+.show-start, .show-end {
     font-size: 1.1rem;
     padding: 0.3rem;
 }
 .fa-check, .fa-trash {
     cursor: pointer;
+}
+
+.start-text, .end-text{
+    font-size: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.2rem;
+    color: #ffffff;
 }

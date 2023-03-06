@@ -1,7 +1,7 @@
 // import { URL } from './scripturl.js';
 
-var apiKey = "AIzaSyC3PsbxDE_2GcSnR6OY0TPKfpxoGKOKmEU";
-var clientId = "313642721794-34qtvuif6om07hpvbmo4ao1gmcrg5vbm.apps.googleusercontent.com";
+var apiKey = "";
+var clientId = "";
 
 
 

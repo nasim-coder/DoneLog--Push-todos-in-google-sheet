@@ -1,4 +1,4 @@
-// import { URL } from './scripturl.js';
+import { URL } from './scripturl.js';
 
 var apiKey = "";
 var clientId = "";
@@ -194,13 +194,16 @@ function deleteOneTodoFromLocalStorage(todo) {
         localStorage.setItem('checkdate', new Date());
     }
     if (new Date().getDate() - new Date(checkdate).getDate() > 0) {
-        let todos = getTodos();
+      let todos = getTodos();
+      let myTaskArr = [];
         todos.forEach(elem => {
-            if (elem.isDone == true && (new Date().getDate() - new Date(elem.createdAt).getDate()) > 0) {
-                pushTodoInSpreadSheet(elem.todo, elem.startTime, elem.endTime, elem.doneAt, elem.createdAt);
+          if (elem.isDone == true && (new Date().getDate() - new Date(elem.createdAt).getDate()) > 0) {
+            myTaskArr.push([elem.todo, elem.startTime, elem.endTime, elem.doneAt, elem.createdAt])
+                // pushTodoInSpreadSheet(elem.todo, elem.startTime, elem.endTime, elem.doneAt, elem.createdAt);
                 deleteOneTodoFromLocalStorage(elem.todo);
             }
         });
+      pushTodoInSpreadSheet(myTaskArr);
         localStorage.setItem('checkdate', new Date());
     }
 })()
@@ -217,146 +220,158 @@ function minuteToHour(time) {
     }
 }
 
-async function pushTodoInSpreadSheet(todo, startTime, endTime, doneAt, createdAt) {
-    const resp = await fetch(`${URL}?todo=${todo}&startTime=${startTime}&endTime=${endTime}&doneAt=${doneAt}&createdAt=${createdAt}`);
-    console.log(resp);
+// async function pushTodoInSpreadSheet(todo, startTime, endTime, doneAt, createdAt) {
+//     const resp = await fetch(`${URL}?todo=${todo}&startTime=${startTime}&endTime=${endTime}&doneAt=${doneAt}&createdAt=${createdAt}`);
+//     console.log(resp);
+// }
+
+
+
+async function pushTodoInSpreadSheet(task) {
+let tasks = JSON.stringify(task)
+  console.log(URL);
+  const resp = await fetch(`${URL}?tasks=${tasks}`);
+  console.log(1, await resp.json());
 }
+
+// const tasks = [["todo1", "startTime1", "endTime1", "doneAt1", "createdAt1"],["todo2", "startTime2", "endTime2", "doneAt2", "createdAt2"],["todo3", "startTime3", "endTime3", "doneAt3", "createdAt3"]]
+// await pushTodoInSpreadSheet(tasks)
 
 /////////////////////////////////////
 //Google logic below
 
 
 
-function addTaskToSheet(task) {
-    var spreadsheetName = "My Tasks";
-    var sheetName = "Sheet1";
+// function addTaskToSheet(task) {
+//     var spreadsheetName = "My Tasks";
+//     var sheetName = "Sheet1";
   
-    // Get the Google Sheets API client
-    var client = getClient();
+//     // Get the Google Sheets API client
+//     var client = getClient();
   
-    // Check if the spreadsheet already exists
-    var spreadsheets = client.sheets.spreadsheets.list({
-      q: "name='" + spreadsheetName + "'",
-    });
-    if (spreadsheets.result.files.length > 0) {
-      // The spreadsheet already exists, so get the ID
-      var spreadsheetId = spreadsheets.result.files[0].id;
-    } else {
-      // The spreadsheet doesn't exist, so create a new one
-      var spreadsheet = client.sheets.spreadsheets.create({
-        properties: {
-          title: spreadsheetName,
-        },
-      });
-      var spreadsheetId = spreadsheet.result.spreadsheetId;
-    }
+//     // Check if the spreadsheet already exists
+//     var spreadsheets = client.sheets.spreadsheets.list({
+//       q: "name='" + spreadsheetName + "'",
+//     });
+//     if (spreadsheets.result.files.length > 0) {
+//       // The spreadsheet already exists, so get the ID
+//       var spreadsheetId = spreadsheets.result.files[0].id;
+//     } else {
+//       // The spreadsheet doesn't exist, so create a new one
+//       var spreadsheet = client.sheets.spreadsheets.create({
+//         properties: {
+//           title: spreadsheetName,
+//         },
+//       });
+//       var spreadsheetId = spreadsheet.result.spreadsheetId;
+//     }
   
-    // Check if the sheet already exists
-    var sheets = client.sheets.spreadsheets.sheets.list({
-      spreadsheetId: spreadsheetId,
-      q: "name='" + sheetName + "'",
-    });
-    if (sheets.result.sheets.length > 0) {
-      // The sheet already exists, so get the ID
-      var sheetId = sheets.result.sheets[0].properties.sheetId;
-    } else {
-      // The sheet doesn't exist, so create a new one
-      var sheet = client.sheets.spreadsheets.sheets.addSheet({
-        spreadsheetId: spreadsheetId,
-        resource: {
-          properties: {
-            title: sheetName,
-          },
-        },
-      });
-      var sheetId = sheet.result.properties.sheetId;
-    }
+//     // Check if the sheet already exists
+//     var sheets = client.sheets.spreadsheets.sheets.list({
+//       spreadsheetId: spreadsheetId,
+//       q: "name='" + sheetName + "'",
+//     });
+//     if (sheets.result.sheets.length > 0) {
+//       // The sheet already exists, so get the ID
+//       var sheetId = sheets.result.sheets[0].properties.sheetId;
+//     } else {
+//       // The sheet doesn't exist, so create a new one
+//       var sheet = client.sheets.spreadsheets.sheets.addSheet({
+//         spreadsheetId: spreadsheetId,
+//         resource: {
+//           properties: {
+//             title: sheetName,
+//           },
+//         },
+//       });
+//       var sheetId = sheet.result.properties.sheetId;
+//     }
   
-    // Add the task to the sheet
-    var rowValues = [task.todo, task.createdAt, task.startTime, task.endTime, task.doneAt];
-    var range = sheetName + "!A1:E1";
-    var body = {
-      range: range,
-      values: [rowValues],
-    };
-    var result = client.sheets.spreadsheets.values.update({
-      spreadsheetId: spreadsheetId,
-      range: range,
-      valueInputOption: "USER_ENTERED",
-      resource: body,
-    });
-  }
-  
-
-  gapi.client.init({
-    apiKey: apiKey,
-    clientId: clientId,
-    discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
-  }).then(function() {
-    // API initialization succeeded
-  }, function(error) {
-    // API initialization failed
-    console.log(error);
-  });
+//     // Add the task to the sheet
+//     var rowValues = [task.todo, task.createdAt, task.startTime, task.endTime, task.doneAt];
+//     var range = sheetName + "!A1:E1";
+//     var body = {
+//       range: range,
+//       values: [rowValues],
+//     };
+//     var result = client.sheets.spreadsheets.values.update({
+//       spreadsheetId: spreadsheetId,
+//       range: range,
+//       valueInputOption: "USER_ENTERED",
+//       resource: body,
+//     });
+//   }
   
 
-  var request = gapi.client.sheets.spreadsheets.list({
-    q: "mimeType='application/vnd.google-apps.spreadsheet'",
-    fields: "files(id, name)",
-  });
+//   gapi.client.init({
+//     apiKey: apiKey,
+//     clientId: clientId,
+//     discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+//   }).then(function() {
+//     // API initialization succeeded
+//   }, function(error) {
+//     // API initialization failed
+//     console.log(error);
+//   });
   
-  request.execute(function(response) {
-    console.log(response);
-  });
+
+//   var request = gapi.client.sheets.spreadsheets.list({
+//     q: "mimeType='application/vnd.google-apps.spreadsheet'",
+//     fields: "files(id, name)",
+//   });
+  
+//   request.execute(function(response) {
+//     console.log(response);
+//   });
   
 
-  // same logic as above different code by chatgpt
+//   // same logic as above different code by chatgpt
 
-var discoveryDocs = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
-var scopes = "https://www.googleapis.com/auth/spreadsheets";
+// var discoveryDocs = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+// var scopes = "https://www.googleapis.com/auth/spreadsheets";
 
-function handleClientLoad() {
-  gapi.load('client:auth2', initClient);
-}
+// function handleClientLoad() {
+//   gapi.load('client:auth2', initClient);
+// }
 
-function initClient() {
-  gapi.client.init({
-    apiKey: apiKey,
-    clientId: clientId,
-    discoveryDocs: discoveryDocs,
-    scope: scopes
-  }).then(function() {
-    // Listen for sign-in state changes.
-    gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+// function initClient() {
+//   gapi.client.init({
+//     apiKey: apiKey,
+//     clientId: clientId,
+//     discoveryDocs: discoveryDocs,
+//     scope: scopes
+//   }).then(function() {
+//     // Listen for sign-in state changes.
+//     gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
 
-    // Handle the initial sign-in state.
-    updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-  });
-}
+//     // Handle the initial sign-in state.
+//     updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+//   });
+// }
 
-function updateSigninStatus(isSignedIn) {
-  if (isSignedIn) {
-    // User is signed in, make API requests.
-    listSpreadsheets();
-  } else {
-    // User is not signed in, display login button.
-    var authorizeButton = document.getElementById('authorize-button');
-    authorizeButton.style.display = 'block';
-    authorizeButton.onclick = handleAuthClick;
-  }
-}
+// function updateSigninStatus(isSignedIn) {
+//   if (isSignedIn) {
+//     // User is signed in, make API requests.
+//     listSpreadsheets();
+//   } else {
+//     // User is not signed in, display login button.
+//     var authorizeButton = document.getElementById('authorize-button');
+//     authorizeButton.style.display = 'block';
+//     authorizeButton.onclick = handleAuthClick;
+//   }
+// }
 
-function handleAuthClick(event) {
-  gapi.auth2.getAuthInstance().signIn();
-}
+// function handleAuthClick(event) {
+//   gapi.auth2.getAuthInstance().signIn();
+// }
 
-function listSpreadsheets() {
-  gapi.client.sheets.spreadsheets.list({
-    q: "mimeType='application/vnd.google-apps.spreadsheet'",
-    fields: "files(id, name)",
-  }).then(function(response) {
-    console.log(response);
-  });
-}
+// function listSpreadsheets() {
+//   gapi.client.sheets.spreadsheets.list({
+//     q: "mimeType='application/vnd.google-apps.spreadsheet'",
+//     fields: "files(id, name)",
+//   }).then(function(response) {
+//     console.log(response);
+//   });
+// }
 
-handleClientLoad()
+// handleClientLoad()

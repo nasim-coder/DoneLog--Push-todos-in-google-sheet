@@ -1,6 +1,6 @@
 {
-    "name": "My Todos",
-    "description": "Todo List with motivatinal quotes, it will show on every new tab",
+    "name": "LifeList",
+    "description": "Todo List with motivational quotes, it will show on every new tab",
     "version": "0.0.1",
     "manifest_version": 3,
       "action": {
@@ -12,9 +12,10 @@
       "icons": {
         "128": "/images/todo.png"
       },
-      "chrome_url_overrides" : {
-        "newtab": "todos.html"
-      },
+      "permissions": [
+        "tabs"
+      ],
+      
     "author": "Nasim"
   }
   

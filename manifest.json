@@ -3,8 +3,10 @@
     "description": "Todo List with motivational quotes, it will show on every new tab",
     "version": "0.0.1",
     "manifest_version": 3,
+    "background": {
+      "service_worker": "background.js"
+    },
       "action": {
-        "default_popup": "popup.html",
         "default_icon": {
             "128": "/images/todo.png"
           }
@@ -13,9 +15,32 @@
         "128": "/images/todo.png"
       },
       "permissions": [
-        "tabs"
+        "tabs","activeTab", "identity", "contextMenus", "commands"
       ],
-      
-    "author": "Nasim"
+      "oauth2": {
+        "client_id": "",
+        "scopes": [
+          "https://www.googleapis.com/auth/spreadsheets"
+        ]
+      },
+      "content_scripts": [
+        {
+          "matches": ["https://*/*", "http://*/*"],
+          "js": [
+            "todos.js",
+            "spreadsheet.js"
+          ]
+        }
+      ],
+      "commands": {
+        "openLifeList": {
+          "suggested_key": {
+            "default": "Ctrl+Shift+L" 
+          },
+          "description": "Open LifeList"
+        }
+      },
+    "author": "Nasim",
+    "key": ""
   }
   

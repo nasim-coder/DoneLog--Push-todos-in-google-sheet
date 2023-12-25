@@ -1,3 +1,7 @@
+import { pushTodoInSpreadsheet } from './spreadsheet.js';
+// const spreadsheet = await chrome.runtime.getURL('spreadsheet.js');
+// console.log('spreadsheet', spreadsheet);
+// console.log('pushTodoInSpreadsheet', pushTodoInSpreadsheet);
 
 // greeting
 (function showGreeting() {
@@ -156,13 +160,16 @@ function deleteOrMarkAsComplete(event) {
     if (parent.classList[0] == 'done') {
         const mytodo = parent.previousElementSibling;
         let todos = getTodos();
+        let mytodoData = '';
         todos.forEach(ele => {
             if (ele.todo == mytodo.innerText) {
                 ele.isDone = true;
                 ele.doneAt = new Date();
+                mytodoData = ele;
             }
         });
         localStorage.setItem("mytodos", JSON.stringify(todos));
+        pushTodoInSpreadsheet(mytodoData);
         mytodo.classList.add('completed');
     } else if (parent.classList[0] == 'delete') {
         const mytodo = parent.previousElementSibling.previousElementSibling;
@@ -193,25 +200,11 @@ function deleteOneTodoFromLocalStorage(todo) {
         todos.forEach(elem => {
           if (elem.isDone == true && (new Date().getDate() - new Date(elem.createdAt).getDate()) > 0) {
             myTaskArr.push([elem.todo, elem.startTime, elem.endTime, elem.doneAt, elem.createdAt])
-                // pushTodoInSpreadSheet(elem.todo, elem.startTime, elem.endTime, elem.doneAt, elem.createdAt);
                 deleteOneTodoFromLocalStorage(elem.todo);
             }
         });
-      pushTodoInSpreadSheet(myTaskArr);
+    //   pushTodoInSpreadSheet(myTaskArr);
         localStorage.setItem('checkdate', new Date());
     }
 })()
-
-// return time in hour format
-function minuteToHour(time) {
-    let minutes = parseInt(time);
-    if (minutes) {
-        let hr = Math.trunc(minutes / 60);
-        let minute = minutes % 60;
-        return `${hr}:${minute}`
-    } else {
-        return '0:00';
-    }
-}
-
 

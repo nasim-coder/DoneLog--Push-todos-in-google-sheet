@@ -55,7 +55,7 @@ hr {
 .btn {
     width: 2rem;
     font-size: 1rem;
-    padding: 0.5rem;
+    padding: 0.6rem;
     border-left: 0;
     background-color: #000000;
     text-decoration: none;
@@ -75,8 +75,8 @@ hr {
 }
 
 .mytodo-container {
-    margin: 1rem;
-    padding: 1rem;
+    margin-top: 1rem;
+    padding: 0.5rem;
     border: 1px solid black;
     border-radius: 10px;
     background-color: #181818;

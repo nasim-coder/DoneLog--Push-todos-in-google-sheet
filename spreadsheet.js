@@ -1,4 +1,4 @@
-// const SHEET_NAME = 'LifeList';
+// const SHEET_NAME = 'DoneLog';
 
 async function authorizeUser() {
   try {
@@ -27,14 +27,15 @@ export async function pushTodoInSpreadsheet(todoData) {
     
     // Prepare the body data
     const body = {
-      values: [[
-        todoData.todo,
-        todoData.createdAt,
-        todoData.doneAt,
-        todoData.startTime,
-        todoData.endTime,
-        todoData.isDone ? 'true' : 'false',
-      ]],
+      // values: [[
+      //   todoData.todo,
+      //   todoData.createdAt,
+      //   todoData.doneAt,
+      //   todoData.startTime,
+      //   todoData.endTime,
+      //   todoData.isDone ? 'true' : 'false',
+      // ]],
+      values: todoData,
     };
 
     // Send the request
@@ -68,12 +69,12 @@ async function createSpreadsheet(token) {
       },
       body: JSON.stringify({
         properties: {
-          title: 'LifeList'
+          title: 'DoneLog'
         },
         sheets: [
           {
             properties: {
-              title: 'LifeList01',
+              title: 'DoneLog01',
               gridProperties: {
                 // rowCount: 10,
                 columnCount: 7

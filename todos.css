@@ -1,4 +1,7 @@
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
     background-color: #353c30;
 }
@@ -28,50 +31,12 @@ hr {
     color: #656b70;
 }
 
-.inpt-bar {
-    text-align: center;
-    margin-top: 1.5rem;
-    align-items: center;
-    display: flex;
-}
 
-.input {
-    font-size: 1rem;
-    flex: 1;
-    padding: 0.5rem;
-    border-radius: 10px 0 0 10px;
-    border: none;
-}
- .start-time, .end-time {
-    /* font-size: 1rem; */
-    padding: 0.5rem;
-    border-right: 0;
-    box-shadow: none !important;
-    border: none;
-}
-/* .input:focus{
-    outline: none;
-} */
-.btn {
-    width: 2rem;
-    font-size: 1rem;
-    padding: 0.6rem;
-    border-left: 0;
-    background-color: #000000;
-    text-decoration: none;
-    color: #ffffff;
-    align-items: center;
-    border-radius: 0 10px 10px 0;
-    cursor: pointer;
-    box-shadow: none;
-    outline: none;
-    border: none;
-}
 
 .todos-container {
     margin-left: auto;
     margin-right: auto;
-    width: 70rem;
+    width: 80%;
 }
 
 .mytodo-container {
@@ -87,7 +52,8 @@ hr {
     transition: all 0.5s ease;
 }
 
-.done, .delete{
+.done,
+.delete {
     /* cursor: pointer; */
     font-size: 1rem;
 }
@@ -106,21 +72,126 @@ ul {
     padding-inline-start: 0;
 }
 
-.top-bar-container{
+.top-bar-container {
     margin-left: 13rem;
     margin-right: 13rem;
 }
-.show-start, .show-end {
-    font-size: 1.1rem;
-    padding: 0.3rem;
+
+.show-start,
+.show-end {
+    font-size: 1rem;
 }
-.fa-check, .fa-trash {
-    cursor: pointer;
+.show-start{
+    padding-right: 0.3rem;
 }
 
-.start-text, .end-text{
+
+.start-text,
+.end-text {
     font-size: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.2rem;
-    color: #ffffff;
+    color: #fff
 }
+
+.mytodo-container button {
+ color: #000000;
+ background-color: #fff;
+ margin-right: 2px;
+ cursor: pointer;
+ border: 1px solid #000000;
+ transition: background-color 0.3s ease;
+ border-radius: 5px;
+
+}
+
+.mytodo-container button:hover{
+color: #fff;
+background-color: #000000;
+}
+
+
+.fixed-button {
+    position: fixed;
+    bottom: 20px; 
+    right: 20px; 
+    z-index: 999; 
+  }
+
+.fixed-button button{
+    color: #000000;
+    background-color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.5rem 0.25rem;
+    cursor: pointer;
+    border-radius: 15px;
+    border: 1px solid #000000;
+    transition: background-color 0.3s ease;
+  }
+
+.fixed-button button:hover{
+    color: #fff;
+    background-color: #000000;
+}
+
+
+
+/* form elements style goes below */
+
+.top-bar-container {
+   margin-top: 1rem;
+   width: 70%;
+   margin-right: auto;
+   margin-left: auto;
+   font-size: 1rem;
+}
+
+
+.inpt-bar {
+    display: flex;
+    align-items: center;
+}
+  
+  .input {
+    flex: 1;
+    padding: 8px;
+    line-height: 1.5;
+    border: 1px solid #000;
+    font-size: 1rem;
+    border-radius: 10px 0px 0px 10px ;
+  }
+  
+  .time-inputs {
+    display: flex;
+    align-items: center;
+  }
+  
+  .time-label {
+    margin: 5px;
+    color: #fff;
+  }
+  
+  .start-time,
+  .end-time {
+    padding: 8px 4px;
+    line-height: 1.5;
+    border: 1px solid #000;
+    font-size: 1rem;
+  }
+  
+  .btn {
+    padding: 9px 12px;
+    line-height: 1.5;
+    border: 1px solid #000;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0 10px 10px 0;
+    color: #000;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  .btn:hover{
+    color: #fff;
+    background-color: #000;
+  }

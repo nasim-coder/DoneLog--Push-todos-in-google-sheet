@@ -1,7 +1,5 @@
 import { pushTodoInSpreadsheet } from './spreadsheet.js';
-// const spreadsheet = await chrome.runtime.getURL('spreadsheet.js');
-// console.log('spreadsheet', spreadsheet);
-// console.log('pushTodoInSpreadsheet', pushTodoInSpreadsheet);
+
 
 // greeting
 (function showGreeting() {
@@ -160,16 +158,16 @@ function deleteOrMarkAsComplete(event) {
     if (parent.classList[0] == 'done') {
         const mytodo = parent.previousElementSibling;
         let todos = getTodos();
-        let mytodoData = '';
+        // let mytodoData = '';
         todos.forEach(ele => {
             if (ele.todo == mytodo.innerText) {
                 ele.isDone = true;
                 ele.doneAt = new Date();
-                mytodoData = ele;
+                // mytodoData = ele;
             }
         });
         localStorage.setItem("mytodos", JSON.stringify(todos));
-        pushTodoInSpreadsheet(mytodoData);
+        // pushTodoInSpreadsheet(mytodoData);
         mytodo.classList.add('completed');
     } else if (parent.classList[0] == 'delete') {
         const mytodo = parent.previousElementSibling.previousElementSibling;
@@ -189,22 +187,38 @@ function deleteOneTodoFromLocalStorage(todo) {
 }
 
 // delete previous days already done todos
-(function deleteOldAlreadyDoneTodo() {
+(function autoDeleteOldAlreadyDoneTodo() {
+
     let checkdate = localStorage.getItem('checkdate');
     if (!checkdate) {
         localStorage.setItem('checkdate', new Date());
     }
     if (new Date().getDate() - new Date(checkdate).getDate() > 0) {
-      let todos = getTodos();
-      let myTaskArr = [];
-        todos.forEach(elem => {
-          if (elem.isDone == true && (new Date().getDate() - new Date(elem.createdAt).getDate()) > 0) {
-            myTaskArr.push([elem.todo, elem.startTime, elem.endTime, elem.doneAt, elem.createdAt])
-                deleteOneTodoFromLocalStorage(elem.todo);
-            }
-        });
-    //   pushTodoInSpreadSheet(myTaskArr);
-        localStorage.setItem('checkdate', new Date());
+        deleteAlreadyDoneTodo()
     }
 })()
 
+async function deleteAlreadyDoneTodo(){
+    if(!navigator.onLine) return;
+    let todos = getTodos();
+    let myTaskArr = [];
+      todos.forEach(elem => {
+        if (elem.isDone == true) {
+          myTaskArr.push([elem.todo, elem.createdAt,elem.doneAt, elem.startTime, elem.endTime, elem.isDone]);
+          deleteOneTodoFromLocalStorage(elem.todo);
+          }
+      });
+     if(myTaskArr.length>0){
+        await pushTodoInSpreadsheet(myTaskArr);
+     }
+      localStorage.setItem('checkdate', new Date());
+      location.reload();
+}
+
+document.querySelector(".cleartodos").addEventListener('click', clearTodos);
+
+function clearTodos(event){
+    console.log('cleartodos clicked');
+    // event.preventDefault();
+    deleteAlreadyDoneTodo();
+}

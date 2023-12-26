@@ -1,6 +1,6 @@
 {
-    "name": "LifeList",
-    "description": "Todo List with motivational quotes, it will show on every new tab",
+    "name": "DoneLog",
+    "description": "Conquer your day! DoneLog keeps you focused & productive: create tasks, smash'em done, celebrate in Google Sheets. Motivational quotes & intuitive interface keep you motivated & in control. One click - endless possibilities.",
     "version": "0.0.1",
     "manifest_version": 3,
     "background": {
@@ -33,11 +33,11 @@
         }
       ],
       "commands": {
-        "openLifeList": {
+        "openDoneLog": {
           "suggested_key": {
             "default": "Ctrl+Shift+L" 
           },
-          "description": "Open LifeList"
+          "description": "Open DoneLog"
         }
       },
     "author": "Nasim",

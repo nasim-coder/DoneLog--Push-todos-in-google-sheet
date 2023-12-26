@@ -26,18 +26,24 @@
     </div>
 
     <div class="top-bar-container">
-
         <form class="inpt-bar">
-            <input class="input" placeholder="Enter task to do" type="text" required />
-            <span class="start-text">Start Time</span><input type="time" class="start-time">
-            <span class="end-text">End Time</span><input type="time" class="end-time">
-            <button type="submit" class="btn"><i class="fa-sharp fa-solid fa-plus"></i></button>
+          <input class="input" placeholder="Enter task to do" type="text" required>
+          <div class="time-inputs">
+            <label for="start-time" class="time-label">Start Time</label>
+            <input type="time" class="start-time" id="start-time">
+            <label for="end-time" class="time-label">End Time</label>
+            <input type="time" class="end-time" id="end-time">
+          </div>
+          <button type="submit" class="btn"><i class="fa-sharp fa-solid fa-plus"></i></button>
         </form>
-
     </div>
+      
     <ul class="todos-container">
     </ul>
 
+    <div class="fixed-button">
+        <button class="cleartodos">Clear Todos</button>
+    </div>
 </body>
 <!-- <script src="https://apis.google.com/js/api.js"></script> -->
 <script type="module" src="./todos.js" defer>

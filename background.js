@@ -5,15 +5,15 @@ chrome.action.onClicked.addListener(function() {
 // Function to create the context menu item
 function createContextMenuItem() {
     chrome.contextMenus.create({
-      id: 'openLifeList',
-      title: 'LifeList',
+      id: 'openDoneLog',
+      title: 'DoneLog',
       contexts: ['page'] 
     });
   }
   
   // Event listener for context menu item click
   chrome.contextMenus.onClicked.addListener(function(info, tab) {
-    if (info.menuItemId === 'openLifeList') {
+    if (info.menuItemId === 'openDoneLog') {
       chrome.tabs.create({ url: chrome.runtime.getURL('todos.html') });
     }
   });
@@ -37,7 +37,7 @@ async function doesShortcutConflict(shortcut) {
     
     const conflict = await doesShortcutConflict(shortcut);
     if (!conflict) {
-      chrome.commands.update({ name: 'openLifeList', shortcut });
+      chrome.commands.update({ name: 'openDoneLog', shortcut });
     } else {
       console.error('Shortcut conflicts with existing browser action shortcuts');
       // Handle the conflict or choose a different shortcut
@@ -49,7 +49,7 @@ async function doesShortcutConflict(shortcut) {
   
 
 chrome.commands.onCommand.addListener(function(command) {
-    if (command === 'openLifeList') {
+    if (command === 'openDoneLog') {
       chrome.tabs.create({ url: chrome.runtime.getURL('todos.html') });
     }
   });

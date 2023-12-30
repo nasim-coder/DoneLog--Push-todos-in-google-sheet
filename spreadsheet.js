@@ -1,4 +1,4 @@
-// const SHEET_NAME = 'DoneLog';
+
 
 async function authorizeUser() {
   try {
@@ -24,21 +24,11 @@ export async function pushTodoInSpreadsheet(todoData) {
 
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/A:F:append?valueInputOption=USER_ENTERED`;
 
-    
-    // Prepare the body data
     const body = {
-      // values: [[
-      //   todoData.todo,
-      //   todoData.createdAt,
-      //   todoData.doneAt,
-      //   todoData.startTime,
-      //   todoData.endTime,
-      //   todoData.isDone ? 'true' : 'false',
-      // ]],
       values: todoData,
     };
 
-    // Send the request
+   
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -47,9 +37,9 @@ export async function pushTodoInSpreadsheet(todoData) {
       },
       body: JSON.stringify(body),
     });
-    // console.log('response from push todos', response);
+   
     if (response.ok) {
-      // console.log('Todo data successfully added to spreadsheet.');
+      console.log('Todo data successfully added to spreadsheet.');
     }
   } catch (error) {
     console.error(error)
@@ -158,53 +148,12 @@ async function createSpreadsheet(token) {
   }
 }
 
-
-
-///////////////////
-// async function getSpreadsheetIdByTitle(accessToken, title) {
-//   try {
-//       const url = 'https://sheets.googleapis.com/v4/spreadsheets';
-
-//       const headers = new Headers();
-//       headers.append('Authorization', `Bearer ${accessToken}`);
-
-//       const response = await fetch(url, {
-//           method: 'GET',
-//           headers,
-//       });
-
-//       if (response.ok) {
-//           const data = await response.json();
-//           if (data.spreadsheets && data.spreadsheets.length > 0) {
-//               const titles = data.spreadsheets.map(sheet => sheet.properties.title);
-//               return titles;
-//           } else {
-//               return []; // No spreadsheets found
-//           }
-//       } else {
-//           const errorData = await response.json();
-//           console.error('Failed to fetch spreadsheets:', response.status, errorData.error);
-//           return null;
-//       }
-//   } catch (error) {
-//       console.error('Error:', error);
-//       return null;
-//   }
-// }
-
-
-
-
-////////////////////////////////////
 async function getSpreadsheetId(accessToken){
   try {
-    // console.log('getting id');
     const storedSheetId = localStorage.getItem('spreadsheetId');
   if(storedSheetId){
     return storedSheetId;
   }
-  // const spreadsheetId = await getSpreadsheetIdByTitle(accessToken, 'Sheet1');
-  // console.log('spreadsheetId from getSpreadsheetId', spreadsheetId);
   const spreadsheetId = await createSpreadsheet(accessToken)
   if(spreadsheetId){
     localStorage.setItem('spreadsheetId', spreadsheetId);

@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Todos</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>DoneLog</title>
+    
+
     <link rel="stylesheet" href="todos.css">
 </head>
 
@@ -34,10 +33,10 @@
             <label for="end-time" class="time-label">End Time</label>
             <input type="time" class="end-time" id="end-time">
           </div>
-          <button type="submit" class="btn"><i class="fa-sharp fa-solid fa-plus"></i></button>
+          <button type="submit" class="btn" title="create task todo">+</i></button>
         </form>
     </div>
-      
+      <div class="toast hidden"></div>
     <ul class="todos-container">
     </ul>
 
@@ -45,7 +44,7 @@
         <button class="cleartodos">Clear Todos</button>
     </div>
 </body>
-<!-- <script src="https://apis.google.com/js/api.js"></script> -->
+
 <script type="module" src="./todos.js" defer>
 </script>
 

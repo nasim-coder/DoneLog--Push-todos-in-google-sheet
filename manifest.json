@@ -1,6 +1,6 @@
 {
-    "name": "DoneLog",
-    "description": "Conquer your day! DoneLog keeps you focused & productive: create tasks, smash'em done, celebrate in Google Sheets. Motivational quotes & intuitive interface keep you motivated & in control. One click - endless possibilities.",
+    "name": "DoneLog -Push todos in google sheet",
+    "description": "Seamlessly manage tasks, sync with Google Sheets, get inspired with motivational quotes. Click or Ctrl+Shift+L for instant access",
     "version": "0.0.1",
     "manifest_version": 3,
     "background": {
@@ -8,11 +8,13 @@
     },
       "action": {
         "default_icon": {
-            "128": "/images/todo.png"
+            "128": "./icons/icon128.png"
           }
       },
       "icons": {
-        "128": "/images/todo.png"
+        "32": "./icons/icon32.png",
+        "48": "./icons/icon48.png",
+        "128": "./icons/icon128.png"
       },
       "permissions": [
         "tabs","activeTab", "identity", "contextMenus", "commands"
@@ -25,7 +27,7 @@
       },
       "content_scripts": [
         {
-          "matches": ["https://*/*", "http://*/*"],
+          "matches": ["https://*/*"],
           "js": [
             "todos.js",
             "spreadsheet.js"

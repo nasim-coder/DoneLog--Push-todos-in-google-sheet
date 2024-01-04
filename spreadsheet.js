@@ -7,7 +7,7 @@ async function authorizeUser() {
     if (!accessToken) {
       throw new Error('User not authorized.');
     }
-    
+   
     return accessToken;
   } catch (error) {
     
@@ -66,7 +66,6 @@ async function createSpreadsheet(token) {
             properties: {
               title: 'DoneLog01',
               gridProperties: {
-                // rowCount: 10,
                 columnCount: 7
               }
             },
@@ -149,8 +148,10 @@ async function createSpreadsheet(token) {
 }
 
 async function getSpreadsheetId(accessToken){
+  
   try {
     const storedSheetId = localStorage.getItem('spreadsheetId');
+   
   if(storedSheetId){
     return storedSheetId;
   }
@@ -158,6 +159,7 @@ async function getSpreadsheetId(accessToken){
   if(spreadsheetId){
     localStorage.setItem('spreadsheetId', spreadsheetId);
   }
+  
   return spreadsheetId;
 
   } catch (err) {

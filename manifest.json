@@ -1,5 +1,5 @@
 {
-    "name": "DoneLog -Push todos in google sheet",
+    "name": "DoneLog -Push todos in your google sheet",
     "description": "Seamlessly manage tasks, sync with Google Sheets, get inspired with motivational quotes. Click or Ctrl+Shift+L for instant access",
     "version": "0.0.1",
     "manifest_version": 3,
@@ -17,7 +17,7 @@
         "128": "./icons/icon128.png"
       },
       "permissions": [
-        "tabs","activeTab", "identity", "contextMenus", "commands"
+        "activeTab", "identity", "contextMenus", "commands"
       ],
       "oauth2": {
         "client_id": "",
@@ -27,7 +27,7 @@
       },
       "content_scripts": [
         {
-          "matches": ["https://*/*"],
+          "matches": ["https://*/todos.html"],
           "js": [
             "todos.js",
             "spreadsheet.js"
@@ -43,6 +43,6 @@
         }
       },
     "author": "Nasim",
-    "key": ""
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiosyYlF6/CUZvGQT3x76Qt1ZJTmn09PaV++1L3ITyKmkLqgi/PbjsqDZk0a2yVJwc7DdGFmr+Wxr38liHK944MmE8Rm1RItBxXxlIJOk25MHEX8Ueqo6hUcQeAHzNpf2PHkPUmbQl+XdA1gVxoUHG1I2OVXRVrrjqMdAxQNcndxO/umMXxLBl9rwxFoC2S3LVkz6jOXDF1/G7qBwpoC6+RZM8gmJHm//Qti6gsR8NqXmnaX6VtRj60jq+OTnXwdB7rI53WblyZWLh2B9pJ1jsQVkzBYgXnPiqAQ/kNOVj30mfa3oF58bK14HoDblQglV6iIuPCfqRAcfoFY9Bl0VIwIDAQAB"
   }
   

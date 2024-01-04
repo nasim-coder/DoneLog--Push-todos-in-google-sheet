@@ -20,7 +20,7 @@
         "activeTab", "identity", "contextMenus", "commands"
       ],
       "oauth2": {
-        "client_id": "424944760759-lhrd66345aj3cf1dqjgg76g5v92fsvbu.apps.googleusercontent.com",
+        "client_id": "",
         "scopes": [
           "https://www.googleapis.com/auth/spreadsheets"
         ]

@@ -44,9 +44,7 @@ let todoInput = document.querySelector(".input");
 let todoContainer = document.querySelector('.todos-container');
 let startInput = document.querySelector('.start-time');
 let endInput = document.querySelector('.end-time');
-console.log(endInput.value);
-// let hrformat = minuteToHour(minuteInput.value)
-// console.log('hrformat',hrformat);
+
 //crete todo manually by entering the details
 createTodoButton.addEventListener('click', function (event) {
     event.preventDefault();
@@ -58,7 +56,7 @@ createTodoButton.addEventListener('click', function (event) {
         divele.appendChild(todoElement);
         let doneBtn = document.createElement('button');
         doneBtn.classList.add('done');
-        // doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        doneBtn.onclick = markAsDone;
         doneBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
         divele.appendChild(doneBtn);
         todoContainer.appendChild(divele);
@@ -67,6 +65,7 @@ createTodoButton.addEventListener('click', function (event) {
         // create delete buton
         let deleteBtn = document.createElement('button');
         deleteBtn.classList.add('delete');
+        deleteBtn.onclick = deleteTodo;
         deleteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>';
         divele.appendChild(deleteBtn);
         // create span element to show start time
@@ -79,8 +78,10 @@ createTodoButton.addEventListener('click', function (event) {
         endSpan.innerText = endInput.value;
         endSpan.classList.add("show-end");
         divele.appendChild(endSpan);
+        const todoId = new Date().getTime();
+        divele.id = todoId;
 
-        setTodos(todoInput.value.trim(), false, startInput.value, endInput.value, new Date());
+        setTodos(todoInput.value.trim(), false, startInput.value, endInput.value, new Date(), todoId);
         
         todoInput.value = '';
         startInput.value = '';
@@ -89,9 +90,9 @@ createTodoButton.addEventListener('click', function (event) {
 });
 
 // insert todos in local storage
-function setTodos(todo, isDone, startTime, endTime, createdAt ) {
+function setTodos(todo, isDone, startTime, endTime, createdAt, todoId ) {
     let todos = getTodos();
-    todos.push({todo:todo, isDone:isDone, startTime:startTime,endTime:endTime, createdAt:createdAt});
+    todos.push({todoId: todoId, todo:todo, isDone:isDone, startTime:startTime,endTime:endTime, createdAt:createdAt});
     localStorage.setItem("mytodos", JSON.stringify(todos));
 }
 
@@ -110,30 +111,33 @@ function getTodos() {
 function createTodoOnLoad() {
     let todos = getTodos();
     todos.forEach(todoObj => {
-        let completeClasss = 'uncomplete';
+        let completeClasss = 'incomplete';
         if (todoObj.isDone) {
             completeClasss="completed"
         }
-        createTodoElements(todoObj.todo, completeClasss, todoObj.startTime, todoObj.endTime);
+        createTodoElements(todoObj.todo, completeClasss, todoObj.startTime, todoObj.endTime, todoObj.todoId);
     });
 }
 
-function createTodoElements(todo, compClass, startTime, endTime) {
+function createTodoElements(todo, compClass, startTime, endTime, todoId) {
         let divele = document.createElement('div');
+        divele.classList.add(compClass)
         let todoElement = document.createElement('span');
         todoElement.innerText = todo;
         todoElement.classList.add("mytodo");
-        todoElement.classList.add(compClass);
+        
         divele.appendChild(todoElement);
         let doneBtn = document.createElement('button');
         doneBtn.classList.add('done');
-        // doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+        doneBtn.onclick = markAsDone;
+        
         doneBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>'
         divele.appendChild(doneBtn);
         divele.classList.add('mytodo-container')
         todoContainer.appendChild(divele);
         let deleteBtn = document.createElement('button');
         deleteBtn.classList.add('delete');
+        deleteBtn.onclick = deleteTodo;
         deleteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>';
         divele.appendChild(deleteBtn);
         // create span element to show start time
@@ -141,41 +145,37 @@ function createTodoElements(todo, compClass, startTime, endTime) {
         startSpan.innerText = startTime;
         startSpan.classList.add("show-start");
         divele.appendChild(startSpan);
-        // create span element to to show end time
+        // create span element to show end time
         let endSpan = document.createElement('span')
         endSpan.innerText = endTime;
         endSpan.classList.add("show-end");
         divele.appendChild(endSpan);
+        divele.id = todoId;
 
 }
 
 window.addEventListener('load', createTodoOnLoad);
 
-// when user clicks on done or delete
-todoContainer.addEventListener('click', deleteOrMarkAsComplete);
+function deleteTodo(event){
+const deleteBtn = event.currentTarget;
+const parent = deleteBtn.parentElement;
+const mytodo = parent.querySelector('.mytodo')
+deleteOneTodoFromLocalStorage(mytodo.innerText);
+parent.remove();
+}
 
-function deleteOrMarkAsComplete(event) {
-    const doneBtn = event.target;
-    let parent = doneBtn.parentElement;
-    if (parent.classList[0] == 'done') {
-        const mytodo = parent.previousElementSibling;
-        let todos = getTodos();
-        // let mytodoData = '';
-        todos.forEach(ele => {
-            if (ele.todo == mytodo.innerText) {
-                ele.isDone = true;
-                ele.doneAt = new Date();
-                // mytodoData = ele;
-            }
-        });
-        localStorage.setItem("mytodos", JSON.stringify(todos));
-        // pushTodoInSpreadsheet(mytodoData);
-        mytodo.classList.add('completed');
-    } else if (parent.classList[0] == 'delete') {
-        const mytodo = parent.previousElementSibling.previousElementSibling;
-        deleteOneTodoFromLocalStorage(mytodo.innerText)
-        parent.parentElement.remove();
-    }
+function markAsDone(event){
+const doneBtn = event.currentTarget;
+const parent = doneBtn.parentElement;
+const mytodo = parent.querySelector('.mytodo');
+let todos = getTodos();
+        const foundTodo = todos.find(ele => ele.todo === mytodo.innerText);
+        if (foundTodo) {
+            foundTodo.isDone = true;
+            foundTodo.doneAt = new Date();
+            localStorage.setItem('mytodos', JSON.stringify(todos));
+        }
+        parent.classList.add('completed');
 }
 
 function deleteOneTodoFromLocalStorage(todo) {
@@ -189,19 +189,19 @@ function deleteOneTodoFromLocalStorage(todo) {
 }
 
 // delete previous days already done todos
-(function autoDeleteOldAlreadyDoneTodo() {
+(async function autoDeleteOldAlreadyDoneTodo() {
 
     let checkdate = localStorage.getItem('checkdate');
     if (!checkdate) {
         localStorage.setItem('checkdate', new Date());
     }
     if (new Date().getDate() - new Date(checkdate).getDate() > 0) {
-        deleteAlreadyDoneTodo()
+        await deleteAlreadyDoneTodo()
     }
 })()
 
 async function deleteAlreadyDoneTodo(){
-    if(!navigator.onLine) return;
+    if(!navigator.onLine) return showToast('Please connect to internet to push done todos in google sheet');;
     let todos = getTodos();
     let myTaskArr = [];
       todos.forEach(elem => {
@@ -210,19 +210,21 @@ async function deleteAlreadyDoneTodo(){
           deleteOneTodoFromLocalStorage(elem.todo);
           }
       });
-     if(myTaskArr.length>0){
-        await pushTodoInSpreadsheet(myTaskArr);
-     }
+     if(myTaskArr.length>0) await pushTodoInSpreadsheet(myTaskArr);
+     
       localStorage.setItem('checkdate', new Date());
-      location.reload();
+      
+      showToast('Done tasks cleared successfully');
+
+      setTimeout(() => {
+        location.reload(); 
+    }, 2500);
 }
 
 document.querySelector(".cleartodos").addEventListener('click', clearTodos);
 
-function clearTodos(event){
-    console.log('cleartodos clicked');
-    event.preventDefault();
-    deleteAlreadyDoneTodo();
+async function clearTodos(event){
+    await deleteAlreadyDoneTodo();
 }
 
 function showToast(message) {

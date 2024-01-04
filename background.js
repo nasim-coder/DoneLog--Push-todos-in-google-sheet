@@ -36,6 +36,7 @@ async function doesShortcutConflict(shortcut) {
     const shortcut = 'Ctrl+Shift+L'; // Define your desired shortcut here
     
     const conflict = await doesShortcutConflict(shortcut);
+    // console.log('conflict', conflict);
     if (!conflict) {
       chrome.commands.update({ name: 'openDoneLog', shortcut });
     } else {
